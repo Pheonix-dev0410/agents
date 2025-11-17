@@ -1,4 +1,4 @@
-# LiveKit Interruption Handler Plugin
+# LiveKit Interruption Handler Challenge By Salescode.ai
 
 **By Pranav Garg** • 2023UCI3622 • NSUT
 
@@ -12,21 +12,6 @@ Intelligent voice interruption handling for LiveKit Agents that filters out fill
 - **State-Aware Processing** - Context-aware behavior based on agent speaking state
 - **Runtime Configuration** - Dynamically update filler word lists on the fly
 - **Ultra-Low Latency** - Sub-50ms decision time for real-time interactions
-
-## 📦 Installation
-
-Install via pip:
-
-```bash
-pip install livekit-plugins-interrupt-handler
-```
-
-Or install from source:
-
-```bash
-cd livekit-plugins/livekit-plugins-interrupt-handler
-pip install -e .
-```
 
 ## 🚀 Quick Start
 
