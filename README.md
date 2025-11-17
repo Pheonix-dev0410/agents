@@ -1,35 +1,39 @@
-```
-# LiveKit Interruption Handler Plugin BY PRANAV GARG 2023UCI3622 NSUT 
+# LiveKit Interruption Handler Plugin
 
-Intelligent voice interruption handling for LiveKit Agents. Filters out filler words while preserving real interruptions.
+**By Pranav Garg** • 2023UCI3622 • NSUT
+
+Intelligent voice interruption handling for LiveKit Agents that filters out filler words while preserving genuine interruptions.
 
 ## 🎯 Features
 
-- **Filler Detection**: Automatically ignores filler words (uh, um, hmm) when agent is speaking
-- **Command Recognition**: Instant interruption on command words (wait, stop, hold)
-- **Multi-language Support**: Built-in English + Hindi filler detection
-- **State-Aware**: Different behavior based on agent speaking state
-- **Runtime Updates**: Dynamically update filler word lists
-- **Low Latency**: <50ms decision time
+- **Smart Filler Detection** - Automatically ignores filler words (uh, um, hmm) when the agent is speaking
+- **Command Recognition** - Instant interruption on command words (wait, stop, hold)
+- **Multi-language Support** - Built-in English and Hindi filler detection
+- **State-Aware Processing** - Context-aware behavior based on agent speaking state
+- **Runtime Configuration** - Dynamically update filler word lists on the fly
+- **Ultra-Low Latency** - Sub-50ms decision time for real-time interactions
 
 ## 📦 Installation
 
-```
+Install via pip:
+
+```bash
 pip install livekit-plugins-interrupt-handler
 ```
 
-Or from source:
-```
+Or install from source:
+
+```bash
 cd livekit-plugins/livekit-plugins-interrupt-handler
 pip install -e .
 ```
 
 ## 🚀 Quick Start
 
-```
+```python
 from livekit_plugins_interrupt_handler import InterruptionHandler
 
-# Create handler
+# Initialize handler
 handler = InterruptionHandler()
 
 # Track agent state
@@ -48,7 +52,7 @@ await handler.on_agent_speech_finished()
 
 ### Basic Usage
 
-```
+```python
 handler = InterruptionHandler()
 
 # When agent is quiet, all input is accepted
@@ -64,7 +68,7 @@ result = await handler.should_interrupt("wait")  # Returns: True
 
 ### Custom Configuration
 
-```
+```python
 from livekit_plugins_interrupt_handler import InterruptionConfig
 
 config = InterruptionConfig(
@@ -78,14 +82,14 @@ handler = InterruptionHandler(config)
 
 ### Runtime Updates
 
-```
+```python
 # Dynamically update filler words during runtime
 handler.update_fillers(['new', 'filler', 'list'])
 ```
 
 ### Multi-language Support
 
-```
+```python
 # Built-in Hindi support
 await handler.should_interrupt("haan accha")  # Hindi fillers ignored
 
@@ -93,38 +97,37 @@ await handler.should_interrupt("haan accha")  # Hindi fillers ignored
 await handler.should_interrupt("umm haan matlab")  # All fillers ignored
 ```
 
-
-```
 ## 🧪 Testing
 
-### Test Files
+### Test Suite
 
-**Three comprehensive test suites** validate the plugin:
+Three comprehensive test suites validate the plugin's functionality:
 
 1. **`test_interrupt_handler.py`** - Core functionality and unit tests (19 tests)
 2. **`test_performance.py`** - Latency and efficiency benchmarks (4 tests)  
 3. **`test_stress.py`** - Edge cases and robustness testing (5 tests)
 
-### Run Tests
+### Running Tests
 
-```
+```bash
+# Run all tests
+pytest tests/ -v
+
 # Run specific test file
 pytest tests/test_interrupt_handler.py -v
-pytest tests/test_performance.py -v
-pytest tests/test_stress.py -v
 
 # Generate coverage report
-pytest tests/test_interrupt_handler.py --cov=livekit_plugins_interrupt_handler --cov-report=html
+pytest tests/ --cov=livekit_plugins_interrupt_handler --cov-report=html
 
-# Access the report
+# View coverage report
 open htmlcov/index.html
 ```
 
-### What We Tested
+### Test Coverage
 
 **Unit Tests**: Filler detection, command recognition, state management, multi-language support, confidence filtering, runtime updates
 
-**Performance**: <50ms latency, concurrent processing, memory efficiency, rapid state changes
+**Performance**: Sub-50ms latency, concurrent processing, memory efficiency, rapid state changes
 
 **Stress Tests**: Long inputs, rapid-fire requests, Unicode/emoji handling, mixed languages, extreme edge cases
 
@@ -132,32 +135,29 @@ open htmlcov/index.html
 
 - ✅ **28/28 tests passing**
 - ✅ **100% code coverage**
-- ✅ Average latency: 12.5ms (well under 50ms requirement)
+- ✅ **Average latency: 12.5ms** (well under 50ms requirement)
 
-### View Coverage Report
-
-After running tests with coverage, open `htmlcov/index.html` in your browser to see detailed line-by-line coverage analysis.
-```
 ## 🎨 How It Works
 
-```
-User Input
-    ↓
-[Confidence Check >= 0.70]
-    ↓
-[Agent Speaking?]
-    ↓           ↓
-   NO          YES
-    ↓           ↓
- ACCEPT    [Contains Commands?]
-              ↓           ↓
-             YES          NO
-              ↓           ↓
-           ACCEPT    [Only Fillers?]
-                        ↓       ↓
-                       YES      NO
-                        ↓       ↓
-                     REJECT  ACCEPT
+```mermaid
+graph TD
+    A[User Input] --> B{Confidence Check ≥ 0.70}
+    B --> C{Agent Speaking?}
+    
+    C -- No --> D([ACCEPT])
+    C -- Yes --> E{Contains Commands?}
+    
+    E -- Yes --> F([ACCEPT])
+    E -- No --> G{Only Fillers?}
+    
+    G -- Yes --> H([REJECT])
+    G -- No --> I([ACCEPT])
+    
+    %% Styling to make Accept green and Reject red
+    style D fill:#d4edda,stroke:#28a745,color:#155724
+    style F fill:#d4edda,stroke:#28a745,color:#155724
+    style I fill:#d4edda,stroke:#28a745,color:#155724
+    style H fill:#f8d7da,stroke:#dc3545,color:#721c24
 ```
 
 ## 🌐 Supported Languages
@@ -169,34 +169,38 @@ User Input
 `haan` (हाँ), `accha` (अच्छा), `matlab` (मतलब), `arey` (अरे), `theek` (ठीक)
 
 ### Command Words
+
 **English**: `wait`, `stop`, `hold`, `hold on`, `pause`  
 **Hindi**: `ruko` (रुको), `thehro` (ठहरो), `rukiye` (रुकिये)
 
-## 📊 Performance
+## 📊 Performance Metrics
 
-- **Latency**: <50ms average decision time
+- **Latency**: Sub-50ms average decision time
 - **Memory**: <1MB footprint
 - **Concurrency**: Thread-safe async operations
-
-## 🏆 Bonus Features
-
-- ✅ Runtime update of ignored word lists
-- ✅ Multi-language filler detection (EN + HI)
+- **Test Coverage**: 100%
 
 ## 🔧 Configuration Options
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `ignored_words` | `List[str]` | Common fillers | Base filler word list |
-| `min_confidence` | `float` | `0.70` | Minimum ASR confidence |
-| `log_ignored` | `bool` | `True` | Log ignored fillers |
-| `log_valid` | `bool` | `True` | Log valid interrupts |
+| `min_confidence` | `float` | `0.70` | Minimum ASR confidence threshold |
+| `log_ignored` | `bool` | `True` | Log ignored filler words |
+| `log_valid` | `bool` | `True` | Log valid interruptions |
 
-## 🤝 Contributing
+## 🏆 Bonus Features
+
+- ✅ Runtime updates for ignored word lists
+- ✅ Multi-language filler detection (English + Hindi)
+- ✅ Comprehensive test coverage with performance benchmarks
+
+## 🤝 About
 
 Built for the **LiveKit Voice Interruption Handling Challenge**.
 
 **Author**: Pranav Garg  
+**Roll No**: 2023UCI3622  
 **Institution**: NSUT Computer Science (3rd Year)  
 **GitHub**: [@Pheonix-dev0410](https://github.com/Pheonix-dev0410)
 
@@ -204,9 +208,8 @@ Built for the **LiveKit Voice Interruption Handling Challenge**.
 
 Apache-2.0 (same as LiveKit)
 
-## 🔗 Links
+## 🔗 Resources
 
 - [LiveKit Documentation](https://docs.livekit.io/agents)
-- [Assignment Details](https://github.com/livekit/agents)
-- [Branch URL](https://github.com/Pheonix-dev0410/agents/tree/feature/livekit-interrupt-handler-PRANAV_GARG)
-```
+- [Project Repository](https://github.com/livekit/agents)
+- [Feature Branch](https://github.com/Pheonix-dev0410/agents/tree/feature/livekit-interrupt-handler-PRANAV_GARG)
